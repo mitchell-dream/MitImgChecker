@@ -26,7 +26,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     let kBlackListName = "kBlackListName"
     let kScanFileName = "kScanFileName"
     var imgPrefixDataSource = ["jpg","jpeg","png","pdf","gif","bmp","webp"]
-    var scanFileDataSource = ["h","m","mm"]
+    var scanFileDataSource = ["m","mm"]
     var selectedScanFileTypeIndex = -1
     var selectedImageIndex = -1
     var codePrefixDataSource = NSMutableArray.init(array: [])
@@ -387,6 +387,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         if filePath.count>0 {
             checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String])
             checker.getFiles(atPath: filePath, fileType: scanFileDataSource)
+            checker.startCheck()
         }
     }
     ///停止检查

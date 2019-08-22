@@ -57,13 +57,15 @@ class MitChecker: NSObject {
                     if (kImgDataMap.object(forKey: pSuffix) != nil) {
                         let paths = kImgDataMap.object(forKey: pSuffix) as! NSMutableArray
                         let ldict = NSMutableDictionary.init()
-                        ldict.setObject(path, forKey: pSuffix as String as NSCopying)
+                        ldict.setObject(path, forKey: "path" as NSCopying)
+                        ldict.setObject(suffix, forKey: "suffix" as NSCopying)
                         paths.add(ldict)
                         kImgDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     } else {
                         let paths = NSMutableArray.init()
                         let dict = NSMutableDictionary.init()
-                        dict.setObject(path, forKey: pSuffix as String as NSCopying)
+                        dict.setObject(path, forKey: "path" as NSCopying)
+                        dict.setObject(suffix, forKey: "suffix" as NSCopying)
                         paths.add(dict)
                         kImgDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     }
@@ -97,13 +99,15 @@ class MitChecker: NSObject {
                     if (kFileDataMap.object(forKey: pSuffix) != nil) {
                         let paths = kFileDataMap.object(forKey: pSuffix) as! NSMutableArray
                         let ldict = NSMutableDictionary.init()
-                        ldict.setObject(path, forKey: pSuffix as String as NSCopying)
+                        ldict.setObject(path, forKey: "path" as NSCopying)
+                        ldict.setObject(suffix, forKey: "suffix" as NSCopying)
                         paths.add(ldict)
                         kFileDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     } else {
                         let paths = NSMutableArray.init()
                         let dict = NSMutableDictionary.init()
-                        dict.setObject(path, forKey: pSuffix as String as NSCopying)
+                        dict.setObject(path, forKey: "path" as NSCopying)
+                        dict.setObject(suffix, forKey: "suffix" as NSCopying)
                         paths.add(dict)
                         kFileDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     }
@@ -111,5 +115,25 @@ class MitChecker: NSObject {
             }
         }
         print("\(kFileDataMap)")
+    }
+    
+    
+    func startCheck() -> [NSDictionary] {
+        var copyImgData = kImgDataMap.mutableCopy()
+        for fileMap in kFileDataMap {
+            print("\(fileMap)")
+            for item in fileMap as! NSArray {
+                let dict = item as! NSDictionary
+                let path = dict.object(forKey: "path")
+                let url = URL(fileURLWithPath: path as! String)
+
+            }
+//            let map = fileMap as! NSDictionary
+
+            
+        }
+        
+        
+        return []
     }
 }
