@@ -1,0 +1,356 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FC452105230D6D23002B24A8 /* MitSureWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC452104230D6D23002B24A8 /* MitSureWindow.swift */; };
+		FC452109230D6E1D002B24A8 /* MitSureWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC452108230D6E1D002B24A8 /* MitSureWindow.xib */; };
+		FC45210B230D86F5002B24A8 /* MitTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC45210A230D86F5002B24A8 /* MitTextView.swift */; };
+		FC45210D230D870D002B24A8 /* MitTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC45210C230D870D002B24A8 /* MitTextView.xib */; };
+		FC45210F230E4472002B24A8 /* MitChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC45210E230E4472002B24A8 /* MitChecker.swift */; };
+		FCACED91230CEE40000297D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCACED90230CEE40000297D7 /* AppDelegate.swift */; };
+		FCACED93230CEE40000297D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCACED92230CEE40000297D7 /* ViewController.swift */; };
+		FCACED95230CEE41000297D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCACED94230CEE41000297D7 /* Assets.xcassets */; };
+		FCACED98230CEE41000297D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCACED96230CEE41000297D7 /* Main.storyboard */; };
+		FCACEDA1230D1C10000297D7 /* MitRootWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCACEDA0230D1C10000297D7 /* MitRootWindow.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FC452104230D6D23002B24A8 /* MitSureWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitSureWindow.swift; sourceTree = "<group>"; };
+		FC452108230D6E1D002B24A8 /* MitSureWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MitSureWindow.xib; sourceTree = "<group>"; };
+		FC45210A230D86F5002B24A8 /* MitTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitTextView.swift; sourceTree = "<group>"; };
+		FC45210C230D870D002B24A8 /* MitTextView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MitTextView.xib; sourceTree = "<group>"; };
+		FC45210E230E4472002B24A8 /* MitChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitChecker.swift; sourceTree = "<group>"; };
+		FCACED8D230CEE40000297D7 /* MitImgChecker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MitImgChecker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCACED90230CEE40000297D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FCACED92230CEE40000297D7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FCACED94230CEE41000297D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FCACED97230CEE41000297D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FCACED99230CEE41000297D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCACED9A230CEE41000297D7 /* MitImgChecker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MitImgChecker.entitlements; sourceTree = "<group>"; };
+		FCACEDA0230D1C10000297D7 /* MitRootWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitRootWindow.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FCACED8A230CEE40000297D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FCACED84230CEE40000297D7 = {
+			isa = PBXGroup;
+			children = (
+				FCACED8F230CEE40000297D7 /* MitImgChecker */,
+				FCACED8E230CEE40000297D7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FCACED8E230CEE40000297D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FCACED8D230CEE40000297D7 /* MitImgChecker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FCACED8F230CEE40000297D7 /* MitImgChecker */ = {
+			isa = PBXGroup;
+			children = (
+				FCACED90230CEE40000297D7 /* AppDelegate.swift */,
+				FCACED92230CEE40000297D7 /* ViewController.swift */,
+				FC45210E230E4472002B24A8 /* MitChecker.swift */,
+				FC452104230D6D23002B24A8 /* MitSureWindow.swift */,
+				FC45210A230D86F5002B24A8 /* MitTextView.swift */,
+				FCACEDA0230D1C10000297D7 /* MitRootWindow.swift */,
+				FC452108230D6E1D002B24A8 /* MitSureWindow.xib */,
+				FC45210C230D870D002B24A8 /* MitTextView.xib */,
+				FCACED94230CEE41000297D7 /* Assets.xcassets */,
+				FCACED96230CEE41000297D7 /* Main.storyboard */,
+				FCACED99230CEE41000297D7 /* Info.plist */,
+				FCACED9A230CEE41000297D7 /* MitImgChecker.entitlements */,
+			);
+			path = MitImgChecker;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FCACED8C230CEE40000297D7 /* MitImgChecker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCACED9D230CEE41000297D7 /* Build configuration list for PBXNativeTarget "MitImgChecker" */;
+			buildPhases = (
+				FCACED89230CEE40000297D7 /* Sources */,
+				FCACED8A230CEE40000297D7 /* Frameworks */,
+				FCACED8B230CEE40000297D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MitImgChecker;
+			productName = MitImgChecker;
+			productReference = FCACED8D230CEE40000297D7 /* MitImgChecker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FCACED85230CEE40000297D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = Mitchell;
+				TargetAttributes = {
+					FCACED8C230CEE40000297D7 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = FCACED88230CEE40000297D7 /* Build configuration list for PBXProject "MitImgChecker" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FCACED84230CEE40000297D7;
+			productRefGroup = FCACED8E230CEE40000297D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FCACED8C230CEE40000297D7 /* MitImgChecker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FCACED8B230CEE40000297D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCACED95230CEE41000297D7 /* Assets.xcassets in Resources */,
+				FC452109230D6E1D002B24A8 /* MitSureWindow.xib in Resources */,
+				FC45210D230D870D002B24A8 /* MitTextView.xib in Resources */,
+				FCACED98230CEE41000297D7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FCACED89230CEE40000297D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC45210B230D86F5002B24A8 /* MitTextView.swift in Sources */,
+				FCACED93230CEE40000297D7 /* ViewController.swift in Sources */,
+				FCACED91230CEE40000297D7 /* AppDelegate.swift in Sources */,
+				FCACEDA1230D1C10000297D7 /* MitRootWindow.swift in Sources */,
+				FC45210F230E4472002B24A8 /* MitChecker.swift in Sources */,
+				FC452105230D6D23002B24A8 /* MitSureWindow.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FCACED96230CEE41000297D7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FCACED97230CEE41000297D7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FCACED9B230CEE41000297D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FCACED9C230CEE41000297D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		FCACED9E230CEE41000297D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MitImgChecker/MitImgChecker.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = T43EX2XKU3;
+				INFOPLIST_FILE = MitImgChecker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mitchell.MitImgChecker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		FCACED9F230CEE41000297D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = MitImgChecker/MitImgChecker.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = T43EX2XKU3;
+				INFOPLIST_FILE = MitImgChecker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Mitchell.MitImgChecker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FCACED88230CEE40000297D7 /* Build configuration list for PBXProject "MitImgChecker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCACED9B230CEE41000297D7 /* Debug */,
+				FCACED9C230CEE41000297D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FCACED9D230CEE41000297D7 /* Build configuration list for PBXNativeTarget "MitImgChecker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCACED9E230CEE41000297D7 /* Debug */,
+				FCACED9F230CEE41000297D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FCACED85230CEE40000297D7 /* Project object */;
+}
