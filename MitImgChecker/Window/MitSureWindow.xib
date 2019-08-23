@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BQs-3p-cpQ">
-                        <rect key="frame" x="49.5" y="49" width="121" height="41"/>
+                        <rect key="frame" x="50" y="49" width="120" height="41"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="73m-3P-rar"/>
                             <constraint firstAttribute="width" constant="120" id="zN0-gr-kqB"/>
@@ -44,7 +44,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6zG-6U-giu">
-                        <rect key="frame" x="309.5" y="49" width="121" height="41"/>
+                        <rect key="frame" x="310" y="49" width="120" height="41"/>
                         <buttonCell key="cell" type="roundTextured" title="Cancel" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="t0o-WO-FJY">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>

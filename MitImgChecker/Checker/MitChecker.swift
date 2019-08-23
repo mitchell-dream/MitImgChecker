@@ -85,7 +85,7 @@ class MitChecker: NSObject {
     }
     
     ///获取所有文件
-    func getFiles(atPath path:String, fileType fileTypeArr:[String]) -> Void {
+    func getFiles(atPath path:String, fileType fileTypeArr:[String], blackList fileBlackArr:[String]) -> Void {
         let fileManager = FileManager.default
         if let enumerator = fileManager.enumerator(atPath: path) {
             for content in enumerator {
@@ -104,6 +104,19 @@ class MitChecker: NSObject {
                     if pSuffix.count == 0 || !fileTypeArr.contains(suffix) {
                         continue
                     }
+                    
+                    var inBlackList = ObjCBool.init(false)
+                    for a in fileBlackArr {
+                        if path.contains(a) {
+                            print("black file = \(fileName)")
+                            inBlackList = true
+                            break
+                        }
+                    }
+                    if inBlackList.boolValue == true {
+                        continue
+                    }
+                    
                     if (kFileDataMap.object(forKey: pSuffix) != nil) {
                         let paths = kFileDataMap.object(forKey: pSuffix) as! NSMutableArray
                         let ldict = NSMutableDictionary.init()

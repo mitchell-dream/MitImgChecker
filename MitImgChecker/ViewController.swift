@@ -22,10 +22,13 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBOutlet weak var addBlackBtn: NSButton!
     @IBOutlet weak var minusBlackBtn: NSButton!
     @IBOutlet weak var scanFilesTable: NSTableView!
-    let kImgColumName = "kImgColumName"
+    @IBOutlet weak var fileBlackTable: NSTableView!
+    let kImgBlackColumName = "kImgBlackColumName"
+    let kFileBlackColumName = "kFileBlackColumName"
     let kCodePrefixName = "kCodePrefixName"
     let kBlackListName = "kBlackListName"
     let kScanFileName = "kScanFileName"
+    let kOutputFileName = "kOutputFileName"
     var imgPrefixDataSource = ["jpg","jpeg","png","pdf","gif","bmp","webp"]
     var scanFileDataSource = ["m","mm"]
     var selectedScanFileTypeIndex = -1
@@ -36,6 +39,8 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     var selectedOutputDataIndex = -1
     var blackListDataSource = NSMutableArray.init(array: [])
     var selectedBlackListDataIndex = -1
+    var fileBlackListDataSource = NSMutableArray.init(array: [])
+    var selectedFileBlackListDataIndex = -1
     var filePath = ""
     private var myContext = 0
     
@@ -51,6 +56,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         initialOutputTable()
         initialBlackListTable()
         initialScanFileType()
+        initialFileBlackListTable()
     }
 
     func controlTextDidEndEditing(_ obj: Notification) {
@@ -70,7 +76,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         imageTypeTable?.delegate = self
         imageTypeTable?.dataSource = self
         imageTypeTable?.target = self
-        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kImgColumName))
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kImgBlackColumName))
         column.width = imageTypeTable?.bounds.width ?? 0;
         column.minWidth = imageTypeTable?.bounds.width ?? 0
         column.maxWidth = imageTypeTable?.bounds.width ?? 0
@@ -94,6 +100,20 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         blackListTable?.scroll(NSPoint(x: 0, y: 0))
     }
     
+    func initialFileBlackListTable() {
+        fileBlackTable?.delegate = self
+        fileBlackTable?.dataSource = self
+        fileBlackTable?.target = self
+        let column1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kFileBlackColumName))
+        column1.width = fileBlackTable?.bounds.width ?? 0
+        column1.minWidth = fileBlackTable?.bounds.width ?? 0
+        column1.maxWidth = fileBlackTable?.bounds.width ?? 0
+        column1.title = "File Subpath Black List"
+        fileBlackTable?.addTableColumn(column1);
+        fileBlackTable?.reloadData()
+        fileBlackTable?.scroll(NSPoint(x: 0, y: 0))
+    }
+    
     func initialCodePrefixTable() {
         codePrefixTable?.delegate = self
         codePrefixTable?.dataSource = self
@@ -112,7 +132,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         outputTable?.delegate = self
         outputTable?.dataSource = self
         outputTable?.target = self
-        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kCodePrefixName))
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kOutputFileName))
         column.width = outputTable?.bounds.width ?? 0
         column.minWidth = outputTable?.bounds.width ?? 0
         column.maxWidth = outputTable?.bounds.width ?? 0
@@ -171,7 +191,6 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 fatalError("execve() fails \(String(cString: strerror(errno)))")
             }
         }
-        
         var status: Int32 = 0
         while waitpid(pid, &status, 0) == -1 {}
         return status >> 8 == EXIT_SUCCESS
@@ -225,7 +244,10 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             return blackListDataSource.count
         } else if (tableView == outputTable){
             return outputDataSource.count
-        } else {
+        } else if (tableView == fileBlackTable) {
+            return fileBlackListDataSource.count
+        }
+        else {
             return scanFileDataSource.count
         }
     }
@@ -241,12 +263,14 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         } else if (tableView == codePrefixTable){
             rowStr = codePrefixDataSource[row] as! String
         } else  if (tableView == blackListTable){
-            rowStr = blackListDataSource[row] as! String
+                rowStr = blackListDataSource[row] as! String
         } else if (tableView == scanFilesTable){
             rowStr = scanFileDataSource[row]
         } else if (tableView == outputTable) {
             let dict:NSDictionary = outputDataSource[row] as! NSDictionary
             rowStr = dict["path"] as! String
+        } else if (tableView == fileBlackTable) {
+            rowStr = fileBlackListDataSource[row] as! String
         }
         return rowStr
     }
@@ -271,6 +295,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         } else if (notification.object as! NSTableView? == scanFilesTable) {
             //选择文件序号
             selectedScanFileTypeIndex = scanFilesTable.selectedRow
+        } else if (notification.object as! NSTableView? == fileBlackTable){
+            //选择黑色文件序号
+            selectedFileBlackListDataIndex = fileBlackTable.selectedRow
         }
     }
     
@@ -329,8 +356,6 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     }
     ///选择工程路径
     @IBAction func filePathTexFieldAction(_ sender: Any) {
-        
-        
 
     }
     ///点击选择工程路径
@@ -450,10 +475,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         if filePath.count>0 {
             checker.removeAll()
             checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String])
-            print("\(checker.kImgDataArr)")
-            checker.getFiles(atPath: filePath, fileType: scanFileDataSource)
+            checker.getFiles(atPath: filePath, fileType: scanFileDataSource, blackList: fileBlackListDataSource as![String])
             print("\(checker.kFileDataMap)")
-            outputDataSource = checker.startCheck() as! NSMutableArray
+            outputDataSource = checker.startCheck()
             outputTable.reloadData()
         }
     }
@@ -461,8 +485,36 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBAction func stopCheck(_ sender: Any) {
         
     }
-    
-    
-    
+    //添加文件名称黑名单
+    @IBAction func addFileBlackList(_ sender: Any) {
+        let myNib = NSNib(nibNamed: "MitTextView", bundle: nil)
+        var objectArray:NSArray?
+        myNib?.instantiate(withOwner: self, topLevelObjects: &objectArray)
+        for item in objectArray! {
+            if item is MitTextView {
+                let window = item as! MitTextView
+                window.delegate = self
+                window.makeKeyAndOrderFront(self)
+                window.title = "Add File Black List SubString"
+                window.sureClickCallback { (str) in
+                    if (str.count>0)&&(!self.blackListDataSource.contains(str)){
+                        self.fileBlackListDataSource.add(str)
+                        self.fileBlackTable.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    //删除文件名称黑名单
+    @IBAction func deleteFileBlackList(_ sender: Any) {
+        if selectedFileBlackListDataIndex<0||fileBlackListDataSource.count<=0 {
+            return
+        }
+        self.fileBlackListDataSource.removeObject(at: self.fileBlackTable.selectedRow)
+        if (!(fileBlackListDataSource.count >= 0 && self.selectedFileBlackListDataIndex < fileBlackListDataSource.count)) {
+            self.selectedFileBlackListDataIndex = -1
+        }
+        self.fileBlackTable.reloadData()
+    }
     
 }

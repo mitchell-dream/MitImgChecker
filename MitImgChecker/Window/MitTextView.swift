@@ -11,6 +11,7 @@ import Cocoa
 class MitTextView: NSWindow {
     typealias makeSureBlock = (String)->(Void);
     typealias cancelBlock = ()->(Void);
+    var keyMonitor = NSEvent.init()
     @IBOutlet weak var textField: NSTextField!
     var makeSureHandler:makeSureBlock? = nil
     var canelHandler:cancelBlock? = nil
