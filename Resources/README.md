@@ -5,8 +5,8 @@
 ## How to use? 🚀
 | Function | way |
 | --- |  --- |
-| Scan images | ![](./Resources/mv11.gif)|
-| Locate a image in Finder | ![](./Resources/mv22.gif)|
+| Scan images | ![](../Resources/mv11.gif)|
+| Locate a image in Finder | ![](../Resources/mv22.gif)|
 
 ---
 
