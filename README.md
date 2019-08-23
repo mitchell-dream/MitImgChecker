@@ -20,7 +20,7 @@
 ---
 
 ## 如何安装 🖥
-### a) Download from git，build && run
+### Download from git，build && run with Xcode 
 
 
 ---
