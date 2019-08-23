@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import ScriptingBridge
 
 
 class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate,NSTextFieldDelegate,NSControlTextEditingDelegate {
@@ -117,7 +116,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = outputTable?.bounds.width ?? 0
         column.minWidth = outputTable?.bounds.width ?? 0
         column.maxWidth = outputTable?.bounds.width ?? 0
-        column.title = " Output. Double click to check the files"
+        column.title = " Doubted unused images paths. Double click to make sure whether the files are unused"
         outputTable?.addTableColumn(column);
         outputTable?.reloadData()
         outputTable?.scroll(NSPoint(x: 0, y: 0))
@@ -448,6 +447,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     ///开始检查
     @IBAction func startCheck(_ sender: Any) {
         if filePath.count>0 {
+            checker.removeAll()
             checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String])
             print("\(checker.kImgDataArr)")
             checker.getFiles(atPath: filePath, fileType: scanFileDataSource)

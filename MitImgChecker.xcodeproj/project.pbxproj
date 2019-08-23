@@ -13,7 +13,6 @@
 		FC45210D230D870D002B24A8 /* MitTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC45210C230D870D002B24A8 /* MitTextView.xib */; };
 		FC45210F230E4472002B24A8 /* MitChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC45210E230E4472002B24A8 /* MitChecker.swift */; };
 		FC452111230F8BBD002B24A8 /* MitLineReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC452110230F8BBD002B24A8 /* MitLineReader.swift */; };
-		FC452115230FD854002B24A8 /* ScriptingBridge in Resources */ = {isa = PBXBuildFile; fileRef = FC452114230FD854002B24A8 /* ScriptingBridge */; };
 		FCACED91230CEE40000297D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCACED90230CEE40000297D7 /* AppDelegate.swift */; };
 		FCACED93230CEE40000297D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCACED92230CEE40000297D7 /* ViewController.swift */; };
 		FCACED95230CEE41000297D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCACED94230CEE41000297D7 /* Assets.xcassets */; };
@@ -28,7 +27,6 @@
 		FC45210C230D870D002B24A8 /* MitTextView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MitTextView.xib; sourceTree = "<group>"; };
 		FC45210E230E4472002B24A8 /* MitChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitChecker.swift; sourceTree = "<group>"; };
 		FC452110230F8BBD002B24A8 /* MitLineReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitLineReader.swift; sourceTree = "<group>"; };
-		FC452114230FD854002B24A8 /* ScriptingBridge */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ScriptingBridge; sourceTree = "<group>"; };
 		FCACED8D230CEE40000297D7 /* MitImgChecker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MitImgChecker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCACED90230CEE40000297D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FCACED92230CEE40000297D7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +48,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC452116230FE02A002B24A8 /* File */ = {
+			isa = PBXGroup;
+			children = (
+				FC452110230F8BBD002B24A8 /* MitLineReader.swift */,
+			);
+			path = File;
+			sourceTree = "<group>";
+		};
+		FC452117230FE051002B24A8 /* Checker */ = {
+			isa = PBXGroup;
+			children = (
+				FC45210E230E4472002B24A8 /* MitChecker.swift */,
+			);
+			path = Checker;
+			sourceTree = "<group>";
+		};
+		FC452118230FE061002B24A8 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				FC452104230D6D23002B24A8 /* MitSureWindow.swift */,
+				FC45210A230D86F5002B24A8 /* MitTextView.swift */,
+				FCACEDA0230D1C10000297D7 /* MitRootWindow.swift */,
+				FC452108230D6E1D002B24A8 /* MitSureWindow.xib */,
+				FC45210C230D870D002B24A8 /* MitTextView.xib */,
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
 		FCACED84230CEE40000297D7 = {
 			isa = PBXGroup;
 			children = (
@@ -69,16 +95,11 @@
 		FCACED8F230CEE40000297D7 /* MitImgChecker */ = {
 			isa = PBXGroup;
 			children = (
+				FC452118230FE061002B24A8 /* Window */,
+				FC452117230FE051002B24A8 /* Checker */,
+				FC452116230FE02A002B24A8 /* File */,
 				FCACED90230CEE40000297D7 /* AppDelegate.swift */,
 				FCACED92230CEE40000297D7 /* ViewController.swift */,
-				FC452110230F8BBD002B24A8 /* MitLineReader.swift */,
-				FC45210E230E4472002B24A8 /* MitChecker.swift */,
-				FC452104230D6D23002B24A8 /* MitSureWindow.swift */,
-				FC45210A230D86F5002B24A8 /* MitTextView.swift */,
-				FCACEDA0230D1C10000297D7 /* MitRootWindow.swift */,
-				FC452114230FD854002B24A8 /* ScriptingBridge */,
-				FC452108230D6E1D002B24A8 /* MitSureWindow.xib */,
-				FC45210C230D870D002B24A8 /* MitTextView.xib */,
 				FCACED94230CEE41000297D7 /* Assets.xcassets */,
 				FCACED96230CEE41000297D7 /* Main.storyboard */,
 				FCACED99230CEE41000297D7 /* Info.plist */,
@@ -147,7 +168,6 @@
 			files = (
 				FCACED95230CEE41000297D7 /* Assets.xcassets in Resources */,
 				FC452109230D6E1D002B24A8 /* MitSureWindow.xib in Resources */,
-				FC452115230FD854002B24A8 /* ScriptingBridge in Resources */,
 				FC45210D230D870D002B24A8 /* MitTextView.xib in Resources */,
 				FCACED98230CEE41000297D7 /* Main.storyboard in Resources */,
 			);

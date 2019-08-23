@@ -80,6 +80,12 @@ class MitChecker: NSObject {
         print("\(kImgDataMap)")
     }
     
+    func removeAll() -> Void {
+        kImgDataMap.removeAllObjects()
+        kImgDataArr.removeAllObjects()
+        kFileDataMap.removeAllObjects()
+    }
+    
     ///获取所有文件
     func getFiles(atPath path:String, fileType fileTypeArr:[String]) -> Void {
         let fileManager = FileManager.default
