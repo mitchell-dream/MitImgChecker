@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import ScriptingBridge
+
 
 class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate,NSTextFieldDelegate,NSControlTextEditingDelegate {
 
@@ -94,20 +96,6 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     }
     
     func initialCodePrefixTable() {
-        outputTable?.delegate = self
-        outputTable?.dataSource = self
-        outputTable?.target = self
-        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kCodePrefixName))
-        column.width = outputTable?.bounds.width ?? 0
-        column.minWidth = outputTable?.bounds.width ?? 0
-        column.maxWidth = outputTable?.bounds.width ?? 0
-        column.title = " Output. Double click to check the files"
-        outputTable?.addTableColumn(column);
-        outputTable?.reloadData()
-        outputTable?.scroll(NSPoint(x: 0, y: 0))
-    }
-    
-    func initialOutputTable() {
         codePrefixTable?.delegate = self
         codePrefixTable?.dataSource = self
         codePrefixTable?.target = self
@@ -120,6 +108,78 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         codePrefixTable?.reloadData()
         codePrefixTable?.scroll(NSPoint(x: 0, y: 0))
     }
+    
+    func initialOutputTable() {
+        outputTable?.delegate = self
+        outputTable?.dataSource = self
+        outputTable?.target = self
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kCodePrefixName))
+        column.width = outputTable?.bounds.width ?? 0
+        column.minWidth = outputTable?.bounds.width ?? 0
+        column.maxWidth = outputTable?.bounds.width ?? 0
+        column.title = " Output. Double click to check the files"
+        outputTable?.addTableColumn(column);
+        outputTable?.reloadData()
+        outputTable?.scroll(NSPoint(x: 0, y: 0))
+        outputTable.doubleAction = #selector(outputTableDoubleClick(_:))
+    }
+    
+    @objc func outputTableDoubleClick(_ sender:AnyObject) {
+        guard outputTable.selectedRow >= 0,
+            let item:NSDictionary = outputDataSource[outputTable.selectedRow] as? NSDictionary else {
+            return
+        }
+        let path:String = item.object(forKey: "path") as! String
+        guard shell(command: """
+            open -R "\(path)"
+            """) else {
+                print("打开\(path)失败")
+                return
+        }
+    }
+    @objc public var evalError = {
+        (_ message: String) -> Error in
+        print("💉 *** \(message) ***")
+        return NSError(domain: "SwiftEval", code: -1, userInfo: [NSLocalizedDescriptionKey: message])
+    }
+    @objc public var tmpDir = "/tmp" {
+        didSet {
+        }
+    }
+    private func debug(_ str: String) {
+        print(str)
+    }
+    func shell(command: String) -> Bool {
+        try? command.write(toFile: "\(tmpDir)/command.sh", atomically: false, encoding: .utf8)
+        debug(command)
+        
+        #if !(os(iOS) || os(tvOS))
+        let task = Process()
+        task.launchPath = "/bin/bash"
+        task.arguments = ["-c", command]
+        task.launch()
+        task.waitUntilExit()
+        return task.terminationStatus == EXIT_SUCCESS
+        #else
+        let pid = fork()
+        if pid == 0 {
+            var args = [UnsafeMutablePointer<Int8>?](repeating: nil, count: 4)
+            args[0] = strdup("/bin/bash")!
+            args[1] = strdup("-c")!
+            args[2] = strdup(command)!
+            args.withUnsafeMutableBufferPointer {
+                _ = execve($0.baseAddress![0], $0.baseAddress!, nil) // _NSGetEnviron().pointee)
+                fatalError("execve() fails \(String(cString: strerror(errno)))")
+            }
+        }
+        
+        var status: Int32 = 0
+        while waitpid(pid, &status, 0) == -1 {}
+        return status >> 8 == EXIT_SUCCESS
+        #endif
+    }
+
+    
     
     func initialScanFileType () {
         scanFilesTable?.delegate = self
@@ -137,10 +197,6 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     
     override func viewDidLayout() {
         super.viewDidLayout()
-//        let column =  ?.tableColumn(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: kImgColumName))
-//        column?.width = imageTypeTable?.bounds.width ?? 0
-//        column?.minWidth = imageTypeTable?.bounds.width ?? 0
-//        column?.maxWidth = imageTypeTable?.bounds.width ?? 0
     }
     
     
@@ -189,6 +245,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             rowStr = blackListDataSource[row] as! String
         } else if (tableView == scanFilesTable){
             rowStr = scanFileDataSource[row]
+        } else if (tableView == outputTable) {
+            let dict:NSDictionary = outputDataSource[row] as! NSDictionary
+            rowStr = dict["path"] as! String
         }
         return rowStr
     }
@@ -214,6 +273,10 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             //选择文件序号
             selectedScanFileTypeIndex = scanFilesTable.selectedRow
         }
+    }
+    
+    func tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
+        
     }
     //增加扫描类型
     @IBAction func plusScanTypeClick(_ sender: Any) {
@@ -386,8 +449,11 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBAction func startCheck(_ sender: Any) {
         if filePath.count>0 {
             checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String])
+            print("\(checker.kImgDataArr)")
             checker.getFiles(atPath: filePath, fileType: scanFileDataSource)
-            checker.startCheck()
+            print("\(checker.kFileDataMap)")
+            outputDataSource = checker.startCheck() as! NSMutableArray
+            outputTable.reloadData()
         }
     }
     ///停止检查

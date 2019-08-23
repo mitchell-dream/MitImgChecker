@@ -23,15 +23,16 @@ class MitChecker: NSObject {
         let pathString = path.replacingOccurrences(of: "file:", with: "")
         if let enumerator = fileManager.enumerator(atPath: pathString) {
             for content in enumerator {
-                let path = pathString+"\(content)"
+                let path = pathString+"/\(content)"
                 var directoryExists = ObjCBool.init(false)
                 let fileExists = FileManager.default.fileExists(atPath: path, isDirectory: &directoryExists)
-                //文件夹
-                if fileExists && directoryExists.boolValue {
-                    getAllImages(atPath: path, imgType: imageTypeArr, blackList: blackListArr)
-                } else {
+                //文件
+                if !(fileExists && directoryExists.boolValue) {
+//                    getAllImages(atPath: path, imgType: imageTypeArr, blackList: blackListArr)
+//                } else {
                     //文件
-                    let fileNameArray = (path as NSString).lastPathComponent.components(separatedBy: ".")
+                    let fileName = (path as NSString).lastPathComponent
+                    let fileNameArray = fileName.components(separatedBy: ".")
                     let suffix = fileNameArray.last! as String
                     let prefix = fileNameArray.first! as String
                     var pSuffix = prefix
@@ -59,14 +60,18 @@ class MitChecker: NSObject {
                         let ldict = NSMutableDictionary.init()
                         ldict.setObject(path, forKey: "path" as NSCopying)
                         ldict.setObject(suffix, forKey: "suffix" as NSCopying)
+                        ldict.setObject(fileName, forKey: "name" as NSCopying)
                         paths.add(ldict)
                         kImgDataMap.setObject(paths, forKey: pSuffix as NSCopying)
+                        kImgDataArr.add(ldict)
                     } else {
                         let paths = NSMutableArray.init()
                         let dict = NSMutableDictionary.init()
                         dict.setObject(path, forKey: "path" as NSCopying)
                         dict.setObject(suffix, forKey: "suffix" as NSCopying)
+                        dict.setObject(fileName, forKey: "name" as NSCopying)
                         paths.add(dict)
+                        kImgDataArr.add(dict)
                         kImgDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     }
                 }
@@ -78,18 +83,20 @@ class MitChecker: NSObject {
     ///获取所有文件
     func getFiles(atPath path:String, fileType fileTypeArr:[String]) -> Void {
         let fileManager = FileManager.default
-        let pathString = path.replacingOccurrences(of: "file:", with: "")
-        if let enumerator = fileManager.enumerator(atPath: pathString) {
+        if let enumerator = fileManager.enumerator(atPath: path) {
             for content in enumerator {
-                let path = pathString+"\(content)"
+                let path = path+"/\(content)"
+                print("content=\(content)")
                 var directoryExists = ObjCBool.init(false)
                 let fileExists = FileManager.default.fileExists(atPath: path, isDirectory: &directoryExists)
-                //文件夹
-                if fileExists && directoryExists.boolValue {
-                    getFiles(atPath: path, fileType: fileTypeArr)
-                } else {
-                    //文件
-                    let fileNameArray = (path as NSString).lastPathComponent.components(separatedBy: ".")
+                //如果是文件
+                if !(fileExists && directoryExists.boolValue) {
+//                    print("directory path=\(path)")
+////                    getFiles(atPath: path, fileType: fileTypeArr)
+//                } else {
+                    print("fileHandle \(path)")
+                    let fileName = (path as NSString).lastPathComponent
+                    let fileNameArray = fileName.components(separatedBy: ".")
                     let suffix = fileNameArray.last! as String
                     let prefix = fileNameArray.first! as String
                     let pSuffix = prefix
@@ -101,6 +108,7 @@ class MitChecker: NSObject {
                         let ldict = NSMutableDictionary.init()
                         ldict.setObject(path, forKey: "path" as NSCopying)
                         ldict.setObject(suffix, forKey: "suffix" as NSCopying)
+                        ldict.setObject(fileName, forKey: "name" as NSCopying)
                         paths.add(ldict)
                         kFileDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     } else {
@@ -108,32 +116,45 @@ class MitChecker: NSObject {
                         let dict = NSMutableDictionary.init()
                         dict.setObject(path, forKey: "path" as NSCopying)
                         dict.setObject(suffix, forKey: "suffix" as NSCopying)
+                        dict.setObject(fileName, forKey: "name" as NSCopying)
                         paths.add(dict)
                         kFileDataMap.setObject(paths, forKey: pSuffix as NSCopying)
                     }
                 }
             }
         }
-        print("\(kFileDataMap)")
     }
     
     
-    func startCheck() -> [NSDictionary] {
-        var copyImgData = kImgDataMap.mutableCopy()
-        for fileMap in kFileDataMap {
-            print("\(fileMap)")
-            for item in fileMap as! NSArray {
+    func startCheck() -> NSMutableArray {
+        var copyImgData = kImgDataMap.copy() as! NSDictionary
+        var copyFileData = kFileDataMap.copy() as! NSDictionary
+        var keys = (copyFileData as NSDictionary).allKeys
+        print("(before=\(kImgDataMap.allKeys))")
+        //遍历所有的文件内容，如果文件中
+        for key in keys as NSArray {
+            for item in copyFileData.value(forKey: key as! String) as! NSArray {
                 let dict = item as! NSDictionary
                 let path = dict.object(forKey: "path")
-                let url = URL(fileURLWithPath: path as! String)
-
+                if let aStreamReader = MitLineReader(path: path as! String) {
+                    defer {
+                        aStreamReader.close()
+                    }
+                    while let line:String = aStreamReader.nextLine() {
+                        for image in copyImgData.allKeys {
+                            if (line.range(of: image as! String) != nil) {
+                                print("removePic \(image) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
+                                kImgDataArr.remove(copyImgData.value(forKey: image as! String))
+                                kImgDataMap.removeObject(forKey: image)
+                                break
+                            }
+                        }
+                        copyImgData = kImgDataMap
+                    }
+                }
             }
-//            let map = fileMap as! NSDictionary
-
-            
         }
-        
-        
-        return []
+        print("(afterremove=\(kImgDataMap.allKeys))")
+        return kImgDataArr
     }
 }
