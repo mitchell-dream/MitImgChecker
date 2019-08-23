@@ -88,7 +88,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = blackListTable?.bounds.width ?? 0
         column.minWidth = blackListTable?.bounds.width ?? 0
         column.maxWidth = blackListTable?.bounds.width ?? 0
-        column.title = "Black List Element Name"
+        column.title = "Image Subpath Black List"
         blackListTable?.addTableColumn(column);
         blackListTable?.reloadData()
         blackListTable?.scroll(NSPoint(x: 0, y: 0))
@@ -274,6 +274,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         }
     }
     
+    //column 标题点击
     func tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
         
     }

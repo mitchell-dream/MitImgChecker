@@ -28,9 +28,6 @@ class MitChecker: NSObject {
                 let fileExists = FileManager.default.fileExists(atPath: path, isDirectory: &directoryExists)
                 //文件
                 if !(fileExists && directoryExists.boolValue) {
-//                    getAllImages(atPath: path, imgType: imageTypeArr, blackList: blackListArr)
-//                } else {
-                    //文件
                     let fileName = (path as NSString).lastPathComponent
                     let fileNameArray = fileName.components(separatedBy: ".")
                     let suffix = fileNameArray.last! as String
@@ -47,12 +44,13 @@ class MitChecker: NSObject {
                     var inBlackList = ObjCBool.init(false)
                     for a in blackListArr {
                         if path.contains(a) {
+                            print("black = \(a)")
                             inBlackList = true
                             break
                         }
                     }
                     if inBlackList.boolValue == true {
-                        return
+                        continue
                     }
                     
                     if (kImgDataMap.object(forKey: pSuffix) != nil) {
@@ -97,9 +95,6 @@ class MitChecker: NSObject {
                 let fileExists = FileManager.default.fileExists(atPath: path, isDirectory: &directoryExists)
                 //如果是文件
                 if !(fileExists && directoryExists.boolValue) {
-//                    print("directory path=\(path)")
-////                    getFiles(atPath: path, fileType: fileTypeArr)
-//                } else {
                     print("fileHandle \(path)")
                     let fileName = (path as NSString).lastPathComponent
                     let fileNameArray = fileName.components(separatedBy: ".")
@@ -150,7 +145,7 @@ class MitChecker: NSObject {
                         for image in copyImgData.allKeys {
                             if (line.range(of: image as! String) != nil) {
                                 print("removePic \(image) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
-                                kImgDataArr.remove(copyImgData.value(forKey: image as! String))
+                                kImgDataArr.remove(copyImgData.value(forKey: image as! String) as Any)
                                 kImgDataMap.removeObject(forKey: image)
                                 break
                             }
