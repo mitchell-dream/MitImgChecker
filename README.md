@@ -1,5 +1,5 @@
 # MitUnUsedImgChecker
-| 中文 | ![English](./Resources/README.md)  |
+| 中文 | [English](./Resources/README.md)  |
 > 之前在项目中用 python 实现的，与工程绑定紧密，这次尝试用 swift 重写了一些扫描的 GUI 与逻辑，提供更多自定义功能。
 
 ## 如何使用 🚀

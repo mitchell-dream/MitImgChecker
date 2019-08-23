@@ -1,5 +1,5 @@
 # MitUnUsedImgChecker
-| ![中文](../README.md)  | English |
+| [中文](../README.md)  | English |
 > I have realize the function with python while the way is coupling serious. This time I use swift to rewrite the function and offer more custom function. 
 
 ## How to use? 🚀
