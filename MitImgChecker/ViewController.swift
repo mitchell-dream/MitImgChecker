@@ -473,8 +473,10 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     ///开始检查
     @IBAction func startCheck(_ sender: Any) {
         if filePath.count>0 {
+            outputDataSource.removeAllObjects()
+            outputTable.reloadData()
             checker.removeAll()
-            checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String])
+            checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String], codePrefixList: codePrefixDataSource as![String])
             checker.getFiles(atPath: filePath, fileType: scanFileDataSource, blackList: fileBlackListDataSource as![String])
             print("\(checker.kFileDataMap)")
             outputDataSource = checker.startCheck()

@@ -19,7 +19,7 @@ class MitLineReader  {
     
     init?(path: String, delimiter: String = "\n", encoding: String.Encoding = .utf8,
           chunkSize: Int = 4096) {
-        print("path=\(path)")
+//        print("path=\(path)")
         guard let fileHandle = FileHandle(forReadingAtPath: path),
             let delimData = delimiter.data(using: encoding) else {
                 return nil
