@@ -21,7 +21,7 @@
 | Custom scanned file subpath black list  | ✅ |
 | Custom scanned image type  | ✅ |
 | Custom scanned file type  | ✅ |
-| Code snippets scan for custom image prefixes  | ❌ |
+| Code snippets scan for custom image prefixes  | ✅ |
 
 ---
 
