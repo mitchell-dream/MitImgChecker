@@ -9,7 +9,7 @@
 import Cocoa
 
 class MitChecker: NSObject {
-    var kImgDataArr = NSMutableArray.init()
+//    var kImgDataArr = NSMutableArray.init()
     var kImgDataMap = NSMutableDictionary.init()
     var kFileDataMap = NSMutableDictionary.init()
     var kCodePrefixDataMap = NSMutableDictionary.init()
@@ -67,7 +67,6 @@ class MitChecker: NSObject {
                     dict.setObject(fileName, forKey: "name" as NSCopying)
                     for b in codePrefixList {
                         if fileName.contains(b) {
-                            print("11prefix = \(fileName)")
                             hasCodePrefix = true
                             codePrefix = b
                             data.setObject(hasCodePrefix, forKey: "hasCodePrefix" as NSCopying)
@@ -77,17 +76,17 @@ class MitChecker: NSObject {
                     }
                     paths.add(dict)
                     data.setValue(paths, forKey: "data")
-                    kImgDataArr.add(dict)
+//                    kImgDataArr.add(dict)
                     kImgDataMap.setObject(data, forKey: pSuffix as NSCopying)
                 }
             }
         }
-        print("\(kImgDataMap)")
+//        print("\(kImgDataMap)")
     }
     
     func removeAll() -> Void {
         kImgDataMap.removeAllObjects()
-        kImgDataArr.removeAllObjects()
+//        kImgDataArr.removeAllObjects()
         kFileDataMap.removeAllObjects()
     }
     
@@ -97,12 +96,10 @@ class MitChecker: NSObject {
         if let enumerator = fileManager.enumerator(atPath: path) {
             for content in enumerator {
                 let path = path+"/\(content)"
-                print("content=\(content)")
                 var directoryExists = ObjCBool.init(false)
                 let fileExists = FileManager.default.fileExists(atPath: path, isDirectory: &directoryExists)
                 //如果是文件
                 if !(fileExists && directoryExists.boolValue) {
-                    print("fileHandle \(path)")
                     let fileName = (path as NSString).lastPathComponent
                     let fileNameArray = fileName.components(separatedBy: ".")
                     let suffix = fileNameArray.last! as String
@@ -115,7 +112,6 @@ class MitChecker: NSObject {
                     var inBlackList = ObjCBool.init(false)
                     for a in fileBlackArr {
                         if path.contains(a) {
-                            print("black file = \(fileName)")
                             inBlackList = true
                             break
                         }
@@ -143,7 +139,7 @@ class MitChecker: NSObject {
         var copyImgData = kImgDataMap.copy() as! NSDictionary
         var copyFileData = kFileDataMap.copy() as! NSDictionary
         var keys = (copyFileData as NSDictionary).allKeys
-        print("(before=\(kImgDataMap.allKeys))")
+//        print("(before=\(kImgDataMap.allKeys))")
         //遍历所有的文件内容，如果文件中
         for key in keys as NSArray {
             for item in copyFileData.value(forKey: key as! String) as! NSArray {
@@ -159,13 +155,11 @@ class MitChecker: NSObject {
                             let hasCodePrefix = data.object(forKey: "hasCodePrefix") as! ObjCBool
                             let codePrefix = data.object(forKey: "codePrefix") as! String
                             if (line.range(of: image as! String) != nil) {
-                                print("removePic \(image) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
-//                                kImgDataArr.remove(copyImgData.value(forKey: image as! String) as Any)
+//                                print("removePic \(image) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
                                 kImgDataMap.removeObject(forKey: image)
                             } else if (hasCodePrefix.boolValue == true) {
                                 if (line.range(of: codePrefix ) != nil) {
-                                    print("removeCodePrefix \(codePrefix) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
-//                                    kImgDataArr.remove(copyImgData.value(forKey: image as! String) as Any)
+//                                    print("removeCodePrefix \(codePrefix) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
                                     kImgDataMap.removeObject(forKey: image)
                                 }
                             }
@@ -175,7 +169,7 @@ class MitChecker: NSObject {
                 }
             }
         }
-        print("(afterremove=\(kImgDataMap.allKeys))")
+//        print("(afterremove=\(kImgDataMap.allKeys))")
         let result = NSMutableArray.init()
         for data in kImgDataMap.allValues as NSArray {
             let dict = data as! NSMutableDictionary

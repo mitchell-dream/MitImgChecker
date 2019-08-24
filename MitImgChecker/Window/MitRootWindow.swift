@@ -14,5 +14,20 @@ class MitRootWindow: NSWindowController {
         super.windowDidLoad()
         self.window?.title = "MitImgChecker";
     }
+    @IBAction func openDocument(_ sender: AnyObject?) {
+        
+        let openPanel = NSOpenPanel()
+        openPanel.showsHiddenFiles = false
+        openPanel.canChooseFiles = false
+        openPanel.canChooseDirectories = true
+        
+        openPanel.beginSheetModal(for: window!) { response in
+            guard response.rawValue == NSApplication.ModalResponse.OK.rawValue else {
+                return
+            }
+            self.contentViewController?.representedObject = openPanel.url
+        }
+    }
+    
 
 }

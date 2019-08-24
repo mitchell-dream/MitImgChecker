@@ -43,7 +43,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     var selectedFileBlackListDataIndex = -1
     var filePath = ""
     private var myContext = 0
-    
+    var fileUrl = URL.init(string: "")
     var checker = MitChecker.init()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -227,13 +227,6 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         }
     }
     
-    
-    override var representedObject: Any? {
-        didSet {
-            // Update the view, if already loaded.
-        }
-    }
-    
     //Delegate
     func numberOfRows(in tableView: NSTableView) -> Int {
         if tableView==imageTypeTable {
@@ -358,9 +351,34 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBAction func filePathTexFieldAction(_ sender: Any) {
 
     }
+    
+    override var representedObject: Any? {
+        didSet {
+            if let url = representedObject as? URL {
+                fileUrl = url
+                chooseFile(fileUrl as Any)
+            }
+        }
+    }
+    
     ///点击选择工程路径
     @IBAction func chooseFile(_ sender: Any) {
-        
+        let dialog = NSOpenPanel();
+        dialog.title                   = "Choose project file";
+        dialog.showsResizeIndicator    = true;
+        dialog.showsHiddenFiles        = false;
+        dialog.canChooseDirectories    = true;
+        dialog.canCreateDirectories    = true;
+        dialog.allowsMultipleSelection = false;
+        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
+            let result = dialog.url
+            if (result != nil) {
+                let path = result!.path
+                projectLabel.stringValue = path
+            }
+        } else {
+            return
+        }
     }
     ///添加图片名前缀
     @IBAction func addPrefix(_ sender: Any) {
