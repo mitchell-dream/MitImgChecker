@@ -25,7 +25,7 @@
 ---
 
 ## How to Install 🖥
-### Download from git，build && run with Xcode 
+### Download from git and run with Xcode 
 
 
 ---
