@@ -166,7 +166,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         }
     }
     private func debug(_ str: String) {
-        print(str)
+//        print(str)
     }
     func shell(command: String) -> Bool {
         try? command.write(toFile: "\(tmpDir)/command.sh", atomically: false, encoding: .utf8)
@@ -221,7 +221,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if context == &myContext {
             if let newValue = change?[NSKeyValueChangeKey.newKey] {
-                print("\(filePath)")
+//                print("\(filePath)")
                 filePath = newValue as! String
             }
         }
@@ -276,7 +276,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     }
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        print("oldDescriptors[0] -> (sortDescriptorPrototyp, descending, compare:)")
+//        print("oldDescriptors[0] -> (sortDescriptorPrototyp, descending, compare:)")
     }
     
     func tableViewSelectionDidChange(_ notification: Notification) {
@@ -478,14 +478,15 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             checker.removeAll()
             checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String], codePrefixList: codePrefixDataSource as![String])
             checker.getFiles(atPath: filePath, fileType: scanFileDataSource, blackList: fileBlackListDataSource as![String])
-            print("\(checker.kFileDataMap)")
             outputDataSource = checker.startCheck()
             outputTable.reloadData()
         }
     }
-    ///停止检查
+    ///清空
     @IBAction func stopCheck(_ sender: Any) {
-        
+        self.checker.removeAll()
+        self.outputDataSource.removeAllObjects()
+        self.outputTable.reloadData()
     }
     //添加文件名称黑名单
     @IBAction func addFileBlackList(_ sender: Any) {
