@@ -1,5 +1,5 @@
 # MitUnUsedImgChecker
-[![](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker/master/README.md)<br>
+[![](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker/blob/master/LICENSE)<br>
 [![](https://img.shields.io/badge/language-Swift-green.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker)  <br>
 
 | 中文 | [English](./Resources/README.md)  |
