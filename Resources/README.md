@@ -1,4 +1,7 @@
 # MitUnUsedImgChecker
+[![](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker/master/README.md)<br>
+[![](https://img.shields.io/badge/language-Swift-green.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker)  <br>
+
 | [中文](../README.md)  | English |
 > I have realize the function with python while the way is coupling serious. This time I use swift to rewrite the function and offer more custom function. 
 
