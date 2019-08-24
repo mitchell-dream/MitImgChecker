@@ -36,8 +36,8 @@
 //文件中图片名称是 a_01.png, 1_02.png ...
 //代码中使用
 int num = 0;
+//添加图片前缀 a_ 就可以将其过滤掉
 [UIImage imageNamed:[NSString stringwithFormat:"a_%ld",num]]
-//增加添加图片前缀 a_ 就可以将其过滤掉
 ```
 ---
 
