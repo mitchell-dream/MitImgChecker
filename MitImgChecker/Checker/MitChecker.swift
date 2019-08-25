@@ -7,12 +7,15 @@
 //
 
 import Cocoa
-
+import CommonCrypto
+import CoreFoundation
+import AppKit
 class MitChecker: NSObject {
-//    var kImgDataArr = NSMutableArray.init()
+
     var kImgDataMap = NSMutableDictionary.init()
     var kFileDataMap = NSMutableDictionary.init()
     var kCodePrefixDataMap = NSMutableDictionary.init()
+    var md5Map = NSMutableDictionary.init()
     ///获取所有图片
     func getAllImages(atPath path:String, imgType imageTypeArr:[String], blackList blackListArr:[String], codePrefixList:[String]) -> Void {
         let fileManager = FileManager.default
@@ -84,9 +87,17 @@ class MitChecker: NSObject {
                         map.setValue(imageSetStr, forKey: imageSetStr!)
                         data.setValue(map, forKey: "imageset")
                     }
+                    let md5result = self.md5File(filePath: path)
+                    var md5arr = md5Map.object(forKey: md5result) as? NSMutableArray
+                    if (md5arr != nil) {
+                        md5arr?.add(path)
+                    } else {
+                        md5arr = NSMutableArray.init()
+                        md5arr!.add(path)
+                    }
+                    md5Map.setObject(md5arr as Any, forKey: md5result as NSCopying)
                     paths.add(dict)
                     data.setValue(paths, forKey: "data")
-//                    kImgDataArr.add(dict)
                     kImgDataMap.setObject(data, forKey: pSuffix as NSCopying)
                 }
             }
@@ -96,7 +107,6 @@ class MitChecker: NSObject {
     
     func removeAll() -> Void {
         kImgDataMap.removeAllObjects()
-//        kImgDataArr.removeAllObjects()
         kFileDataMap.removeAllObjects()
     }
     
@@ -190,7 +200,7 @@ class MitChecker: NSObject {
                 }
             }
         }
-        print("(afterremove=\(kImgDataMap.allKeys))")
+//        print("(afterremove=\(kImgDataMap.allKeys))")
         let result = NSMutableArray.init()
         for data in kImgDataMap.allValues as NSArray {
             let dict = data as! NSMutableDictionary
@@ -198,6 +208,68 @@ class MitChecker: NSObject {
             for path in paths {
                 result.add(path)
             }
+        }
+        return result
+    }
+    func startCheckMD5Files()->NSMutableDictionary!{
+        let tmpMd5Map = md5Map.copy()
+        for key in (tmpMd5Map as! NSDictionary).allKeys {
+            let arr = md5Map.object(forKey: key) as! NSMutableArray
+            if (arr.count == 1) {
+                md5Map.removeObject(forKey: key)
+            }
+        }
+//        print("\(md5Map)")
+        return md5Map
+    }
+    
+    
+}
+
+
+
+extension MitChecker {
+    public func md5(strs:String) ->String!{
+        let str = strs.cString(using: String.Encoding.utf8)
+        let strLen = CUnsignedInt(strs.lengthOfBytes(using: String.Encoding.utf8))
+        let digestLen = Int(CC_MD5_DIGEST_LENGTH)
+        let result = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: digestLen)
+        CC_MD5(str!, strLen, result)
+        let hash = NSMutableString()
+        for i in 0 ..< digestLen {
+            hash.appendFormat("%02x", result[i])
+        }
+        result.deinitialize(count: digestLen)
+        return String(format: hash as String)
+    }
+    func md5File(filePath:String)->String {
+        let bufferSize = 1024*1024
+        var result = ""
+        do {
+            let file = try FileHandle.init(forReadingFrom: URL.init(fileURLWithPath: filePath))
+            defer {
+                file.closeFile()
+            }
+            
+            var context = CC_MD5_CTX.init()
+            CC_MD5_Init(&context)
+            while case let data = file.readData(ofLength: bufferSize), data.count > 0 {
+                data.withUnsafeBytes { (poiner) -> Void in
+                    _ = CC_MD5_Update(&context, poiner, CC_LONG(data.count))
+                }
+            }
+            
+            // 计算MD5摘要
+            var digest = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+            digest.withUnsafeMutableBytes { (pointer) -> Void in
+                _ = CC_MD5_Final(pointer, &context)
+            }
+            result = digest.map { (byte) -> String in
+                String.init(format: "%02hhx", byte)
+                }.joined()
+//            print("path: \(filePath) result: \(result)")
+        } catch {
+            print("计算出错") // 哪里try了，就是哪里出错了
         }
         return result
     }

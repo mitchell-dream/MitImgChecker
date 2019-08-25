@@ -24,12 +24,14 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBOutlet weak var scanFilesTable: NSTableView!
     @IBOutlet weak var fileBlackTable: NSTableView!
     @IBOutlet weak var waitingLabel: NSTextField!
+    @IBOutlet weak var repeatImgTable: NSTableView!
     let kImgBlackColumName = "kImgBlackColumName"
     let kFileBlackColumName = "kFileBlackColumName"
     let kCodePrefixName = "kCodePrefixName"
     let kBlackListName = "kBlackListName"
     let kScanFileName = "kScanFileName"
     let kOutputFileName = "kOutputFileName"
+    let kRepeatImgName = "kRepeatImgName"
     var imgPrefixDataSource = ["jpg","jpeg","png","pdf","gif","bmp","webp"]
     var scanFileDataSource = ["m","mm"]
     var selectedScanFileTypeIndex = -1
@@ -40,8 +42,13 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     var selectedOutputDataIndex = -1
     var blackListDataSource = NSMutableArray.init(array: [])
     var selectedBlackListDataIndex = -1
+    //文件黑名单数据
     var fileBlackListDataSource = NSMutableArray.init(array: [])
     var selectedFileBlackListDataIndex = -1
+    //重复图片数据
+    var repeatImgDataMap = NSMutableDictionary.init()
+    var repeatImgDataSource = NSMutableArray.init()
+    var selectedRepeatDataIndex = -1
     var filePath = ""
     private var myContext = 0
     var fileUrl = URL.init(string: "")
@@ -59,6 +66,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         initialBlackListTable()
         initialScanFileType()
         initialFileBlackListTable()
+        initialRepeatImgTable()
     }
 
     func controlTextDidEndEditing(_ obj: Notification) {
@@ -73,6 +81,22 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             filePath = projectLabel.stringValue
         }
     }
+    
+    func initialRepeatImgTable() {
+        repeatImgTable?.delegate = self
+        repeatImgTable?.dataSource = self
+        repeatImgTable?.target = self
+        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kRepeatImgName))
+        column.width = repeatImgTable?.bounds.width ?? 0;
+        column.minWidth = repeatImgTable?.bounds.width ?? 0
+        column.maxWidth = repeatImgTable?.bounds.width ?? 0
+        column.title = "Doubted repeat images paths, double click to see the details. The same sequence number represents the same picture"
+        repeatImgTable?.addTableColumn(column);
+        repeatImgTable?.reloadData()
+        repeatImgTable?.scroll(NSPoint(x: 0, y: 0))
+        repeatImgTable.doubleAction = #selector(repeatImgTableDoubleClick(_:))
+    }
+
     
     func initialImageTypeTable() {
         imageTypeTable?.delegate = self
@@ -138,7 +162,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = outputTable?.bounds.width ?? 0
         column.minWidth = outputTable?.bounds.width ?? 0
         column.maxWidth = outputTable?.bounds.width ?? 0
-        column.title = " Doubted unused images paths. Double click to make sure whether the files are unused"
+        column.title = " Doubted unused images paths, double click to make sure whether the files are unused"
         outputTable?.addTableColumn(column);
         outputTable?.reloadData()
         outputTable?.scroll(NSPoint(x: 0, y: 0))
@@ -158,6 +182,21 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 return
         }
     }
+    
+    @objc func repeatImgTableDoubleClick(_ sender:AnyObject) {
+        guard repeatImgTable.selectedRow >= 0,
+            let item:NSDictionary = repeatImgDataSource[repeatImgTable.selectedRow] as? NSDictionary else {
+                return
+        }
+        let path:String = item.object(forKey: "path") as! String
+        guard shell(command: """
+            open -R "\(path)"
+            """) else {
+                print("打开\(path)失败")
+                return
+        }
+    }
+    
     @objc public var evalError = {
         (_ message: String) -> Error in
         print("💉 *** \(message) ***")
@@ -241,6 +280,8 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             return outputDataSource.count
         } else if (tableView == fileBlackTable) {
             return fileBlackListDataSource.count
+        } else if (tableView == repeatImgTable) {
+            return repeatImgDataSource.count
         }
         else {
             return scanFileDataSource.count
@@ -248,6 +289,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        if tableView == repeatImgTable {
+            return 40
+        }
         return 20
     }
     
@@ -266,6 +310,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             rowStr = dict["path"] as! String
         } else if (tableView == fileBlackTable) {
             rowStr = fileBlackListDataSource[row] as! String
+        } else if (tableView == repeatImgTable) {
+            let dict = repeatImgDataSource[row] as! NSDictionary
+            rowStr = dict.object(forKey: "content") as! String
         }
         return rowStr
     }
@@ -290,9 +337,12 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         } else if (notification.object as! NSTableView? == scanFilesTable) {
             //选择文件序号
             selectedScanFileTypeIndex = scanFilesTable.selectedRow
-        } else if (notification.object as! NSTableView? == fileBlackTable){
+        } else if (notification.object as! NSTableView? == fileBlackTable) {
             //选择黑色文件序号
             selectedFileBlackListDataIndex = fileBlackTable.selectedRow
+        } else if (notification.object as! NSTableView? == repeatImgTable) {
+            //选中重复序号
+            selectedRepeatDataIndex = repeatImgTable.selectedRow
         }
     }
     
@@ -501,9 +551,23 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 self.checker.getAllImages(atPath: self.filePath, imgType: self.imgPrefixDataSource,blackList: self.blackListDataSource as! [String], codePrefixList: self.codePrefixDataSource as![String])
                 self.checker.getFiles(atPath: self.filePath, fileType: self.scanFileDataSource, blackList: self.fileBlackListDataSource as![String])
                 self.outputDataSource = self.checker.startCheck()
+                self.repeatImgDataMap = self.checker.startCheckMD5Files()
+                var num = 1
+                for key in self.repeatImgDataMap.allKeys {
+                    let arr = self.repeatImgDataMap.value(forKey: key as! String)
+                    for path in arr as! NSMutableArray {
+                        let str = "index:\(num) path:\(path)"
+                        let dict = NSMutableDictionary.init()
+                        dict.setObject(str, forKey: "content"  as NSCopying)
+                        dict.setObject(path, forKey: "path" as NSCopying)
+                        self.repeatImgDataSource.add(dict)
+                    }
+                    num+=1
+                }
                 DispatchQueue.main.async {
                     self.waitingLabel.alphaValue = 0
                     self.outputTable.reloadData()
+                    self.repeatImgTable.reloadData()
                 }
             }
         }
