@@ -289,9 +289,6 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if tableView == repeatImgTable {
-            return 40
-        }
         return 20
     }
     
