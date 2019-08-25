@@ -21,7 +21,8 @@
 | Custom scanned file subpath black list  | ✅ |
 | Custom scanned file type  | ✅ |
 | Code snippets scan for custom image prefixes  | ✅ |
-
+| Check diffirent name of .imageset and image(for iOS/MacOS project) used in project | ✅ |
+| Content repetition image detection capability  | ✅ |
 ---
 
 ## How to Install 🖥
