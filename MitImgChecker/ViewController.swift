@@ -23,6 +23,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBOutlet weak var minusBlackBtn: NSButton!
     @IBOutlet weak var scanFilesTable: NSTableView!
     @IBOutlet weak var fileBlackTable: NSTableView!
+    @IBOutlet weak var waitingLabel: NSTextField!
     let kImgBlackColumName = "kImgBlackColumName"
     let kFileBlackColumName = "kFileBlackColumName"
     let kCodePrefixName = "kCodePrefixName"
@@ -47,6 +48,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     var checker = MitChecker.init()
     override func viewDidLoad() {
         super.viewDidLoad()
+        waitingLabel.alphaValue = 0
         projectLabel.backgroundColor = .clear;
         projectLabel.alignment = .center;
         projectLabel.addObserver(self, forKeyPath: "stringValue", options: .new, context: &myContext)
@@ -493,12 +495,14 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         if filePath.count>0 {
             outputDataSource.removeAllObjects()
             outputTable.reloadData()
+            waitingLabel.alphaValue = 1
             DispatchQueue.global().async {
                 self.checker.removeAll()
                 self.checker.getAllImages(atPath: self.filePath, imgType: self.imgPrefixDataSource,blackList: self.blackListDataSource as! [String], codePrefixList: self.codePrefixDataSource as![String])
                 self.checker.getFiles(atPath: self.filePath, fileType: self.scanFileDataSource, blackList: self.fileBlackListDataSource as![String])
                 self.outputDataSource = self.checker.startCheck()
                 DispatchQueue.main.async {
+                    self.waitingLabel.alphaValue = 0
                     self.outputTable.reloadData()
                 }
             }
