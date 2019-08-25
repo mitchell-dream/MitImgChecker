@@ -28,5 +28,8 @@
 ## How to Install 🖥
 ### Download from git and run with Xcode 
 
+---
+## Introdution
++ [Introdution](https://mitchell-dream-god.com/2019/08/25/ios-check-repeated-and-unused-image/)
 
 ---
