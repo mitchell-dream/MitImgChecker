@@ -493,11 +493,15 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         if filePath.count>0 {
             outputDataSource.removeAllObjects()
             outputTable.reloadData()
-            checker.removeAll()
-            checker.getAllImages(atPath: filePath, imgType: imgPrefixDataSource,blackList: blackListDataSource as! [String], codePrefixList: codePrefixDataSource as![String])
-            checker.getFiles(atPath: filePath, fileType: scanFileDataSource, blackList: fileBlackListDataSource as![String])
-            outputDataSource = checker.startCheck()
-            outputTable.reloadData()
+            DispatchQueue.global().async {
+                self.checker.removeAll()
+                self.checker.getAllImages(atPath: self.filePath, imgType: self.imgPrefixDataSource,blackList: self.blackListDataSource as! [String], codePrefixList: self.codePrefixDataSource as![String])
+                self.checker.getFiles(atPath: self.filePath, fileType: self.scanFileDataSource, blackList: self.fileBlackListDataSource as![String])
+                self.outputDataSource = self.checker.startCheck()
+                DispatchQueue.main.async {
+                    self.outputTable.reloadData()
+                }
+            }
         }
     }
     ///清空

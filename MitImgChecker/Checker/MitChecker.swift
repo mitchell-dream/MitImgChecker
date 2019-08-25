@@ -74,6 +74,16 @@ class MitChecker: NSObject {
                             break
                         }
                     }
+                    if path.contains(".imageset") {
+                        let firstStr = path.components(separatedBy: ".imageset/").first
+                        let imageSetStr = firstStr?.components(separatedBy: "/").last
+                        var map = NSMutableDictionary.init()
+                        if (data.object(forKey: "imageset") != nil) {
+                            map = data.object(forKey: "imageset") as! NSMutableDictionary
+                        }
+                        map.setValue(imageSetStr, forKey: imageSetStr!)
+                        data.setValue(map, forKey: "imageset")
+                    }
                     paths.add(dict)
                     data.setValue(paths, forKey: "data")
 //                    kImgDataArr.add(dict)
@@ -155,12 +165,23 @@ class MitChecker: NSObject {
                             let hasCodePrefix = data.object(forKey: "hasCodePrefix") as! ObjCBool
                             let codePrefix = data.object(forKey: "codePrefix") as! String
                             if (line.range(of: image as! String) != nil) {
+                                //图片前缀检测
 //                                print("removePic \(image) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
                                 kImgDataMap.removeObject(forKey: image)
                             } else if (hasCodePrefix.boolValue == true) {
                                 if (line.range(of: codePrefix ) != nil) {
 //                                    print("removeCodePrefix \(codePrefix) paths = \(String(describing: copyImgData.value(forKey: image as! String))))")
+                                    //代码中使用检测
                                     kImgDataMap.removeObject(forKey: image)
+                                }
+                            } else if (data.object(forKey: "imageset") != nil) {
+                                //imageset 前缀修改检测
+                                let map = data.object(forKey: "imageset") as! NSMutableDictionary
+                                for key in map.allKeys {
+                                    if (line.range(of: key as!String) != nil) {
+                                        kImgDataMap.removeObject(forKey: image)
+                                        break
+                                    }
                                 }
                             }
                         }
@@ -169,7 +190,7 @@ class MitChecker: NSObject {
                 }
             }
         }
-//        print("(afterremove=\(kImgDataMap.allKeys))")
+        print("(afterremove=\(kImgDataMap.allKeys))")
         let result = NSMutableArray.init()
         for data in kImgDataMap.allValues as NSArray {
             let dict = data as! NSMutableDictionary
