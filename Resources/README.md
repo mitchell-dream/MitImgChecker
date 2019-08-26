@@ -1,4 +1,4 @@
-# MitUnUsedImgChecker
+# MitImgChecker
 [![](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker/blob/master/LICENSE)<br>
 [![](https://img.shields.io/badge/language-Swift-green.svg)](https://github.com/mcmengchen/MitUnUsedImgChecker)  <br>
 
