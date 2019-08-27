@@ -574,6 +574,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         self.checker.removeAll()
         self.outputDataSource.removeAllObjects()
         self.outputTable.reloadData()
+        self.repeatImgDataMap.removeAllObjects()
+        self.repeatImgDataSource.removeAllObjects()
+        self.repeatImgTable.reloadData()
     }
     //添加文件名称黑名单
     @IBAction func addFileBlackList(_ sender: Any) {
