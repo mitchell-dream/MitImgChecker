@@ -31,6 +31,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     let kBlackListName = "kBlackListName"
     let kScanFileName = "kScanFileName"
     let kOutputFileName = "kOutputFileName"
+    let kOutputImgName = "kOutputImgName"
     let kRepeatImgName = "kRepeatImgName"
     var imgPrefixDataSource = ["jpg","jpeg","png","pdf","gif","bmp","webp"]
     var scanFileDataSource = ["m","mm"]
@@ -158,12 +159,21 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         outputTable?.delegate = self
         outputTable?.dataSource = self
         outputTable?.target = self
-        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kOutputFileName))
-        column.width = outputTable?.bounds.width ?? 0
-        column.minWidth = outputTable?.bounds.width ?? 0
-        column.maxWidth = outputTable?.bounds.width ?? 0
+//        let column1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kOutputImgName))
+         let column1 = outputTable.tableColumns[0]
+        column1.width = 100
+        column1.minWidth = 100
+        column1.maxWidth = 100
+        column1.title = "Image"
+//        outputTable?.addTableColumn(column1);
+
+//        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kOutputFileName))
+        let column = outputTable.tableColumns[1]
+        column.width = ((outputTable?.bounds.width)! - 100)
+        column.minWidth = ((outputTable?.bounds.width)! - 100)
+        column.maxWidth = ((outputTable?.bounds.width)! - 100)
         column.title = " Doubted unused images paths, double click to make sure whether the files are unused"
-        outputTable?.addTableColumn(column);
+//        outputTable?.addTableColumn(column);
         outputTable?.reloadData()
         outputTable?.scroll(NSPoint(x: 0, y: 0))
         outputTable.doubleAction = #selector(outputTableDoubleClick(_:))
@@ -303,8 +313,16 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         } else if (tableView == scanFilesTable){
             rowStr = scanFileDataSource[row]
         } else if (tableView == outputTable) {
-            let dict:NSDictionary = outputDataSource[row] as! NSDictionary
-            rowStr = dict["path"] as! String
+            if ((tableColumn?.identifier)!.rawValue == kOutputFileName)  {
+                let dict:NSDictionary = outputDataSource[row] as! NSDictionary
+                rowStr = dict["path"] as! String
+            } else {
+                let item:NSDictionary = outputDataSource[row] as! NSDictionary
+                let path:String = item.object(forKey: "path") as! String
+                let img = NSImage.init(byReferencingFile: path)
+                return img
+
+            }
         } else if (tableView == fileBlackTable) {
             rowStr = fileBlackListDataSource[row] as! String
         } else if (tableView == repeatImgTable) {
