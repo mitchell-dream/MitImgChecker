@@ -30,10 +30,17 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     let kCodePrefixName = "kCodePrefixName"
     let kBlackListName = "kBlackListName"
     let kScanFileName = "kScanFileName"
-    let kOutputFileName = "kOutputFileName"
-    let kOutputImgName = "kOutputImgName"
-    let kRepeatFileName = "kRepeatFileName"
-    let kRepeatImgName = "kRepeatImgName"
+    let kOutputImgNameColumn = "kOutputImgNameColumn"
+    let kOutputFileSizeColumn = "kOutputFileSizeColumn"
+    let kOutputFileNameColumn = "kOutputFileNameColumn"
+    let kOutputFilePathColumn = "kOutputFilePathColumn"
+
+    
+    let kRepeatImgNameColumn = "kRepeatImgNameColumn"
+    let kRepeatFileNameColumn = "kRepeatFileNameColumn"
+    let kRepeatFileSizeColumn = "kRepeatFileSizeColumn"
+    let kRepeatFilePathColumn = "kRepeatFilePathColumn"
+    
     var imgPrefixDataSource = ["jpg","jpeg","png","pdf","gif","bmp","webp"]
     var scanFileDataSource = ["m","mm"]
     var selectedScanFileTypeIndex = -1
@@ -88,19 +95,29 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         repeatImgTable?.delegate = self
         repeatImgTable?.dataSource = self
         repeatImgTable?.target = self
-//        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kRepeatFileName))
         let column1 = repeatImgTable.tableColumns[0]
-        column1.width = 100
-        column1.minWidth = 100
-        column1.maxWidth = 100
+        column1.width = 60
+        column1.minWidth = 60
+        column1.maxWidth = 60
         column1.title = "Image"
         
-        let column = repeatImgTable.tableColumns[1]
-        column.width = (repeatImgTable?.bounds.width)!-100;
-        column.minWidth = (repeatImgTable?.bounds.width)!-100
-        column.maxWidth = (repeatImgTable?.bounds.width)!-100
+        let column2 = repeatImgTable.tableColumns[1]
+        column2.width = 100
+        column2.minWidth = 100
+        column2.maxWidth = 150
+        column2.title = "Name"
+        
+        let column3 = repeatImgTable.tableColumns[2]
+        column3.width = 80
+        column3.minWidth = 80
+        column3.maxWidth = 100
+        column3.title = "Size"
+        
+        let column = repeatImgTable.tableColumns[3]
+        column.width = (repeatImgTable?.bounds.width)!-240;
+        column.minWidth = (repeatImgTable?.bounds.width)!-240
+        column.maxWidth = (repeatImgTable?.bounds.width)!
         column.title = "Doubted repeat images paths, double click to see the details. The same sequence number represents the same picture"
-//        repeatImgTable?.addTableColumn(column);
         repeatImgTable?.reloadData()
         repeatImgTable?.scroll(NSPoint(x: 0, y: 0))
         repeatImgTable.doubleAction = #selector(repeatImgTableDoubleClick(_:))
@@ -167,21 +184,30 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         outputTable?.delegate = self
         outputTable?.dataSource = self
         outputTable?.target = self
-//        let column1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kOutputImgName))
-         let column1 = outputTable.tableColumns[0]
-        column1.width = 100
-        column1.minWidth = 100
-        column1.maxWidth = 100
-        column1.title = "Image"
-//        outputTable?.addTableColumn(column1);
 
-//        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kOutputFileName))
-        let column = outputTable.tableColumns[1]
-        column.width = ((outputTable?.bounds.width)! - 100)
-        column.minWidth = ((outputTable?.bounds.width)! - 100)
-        column.maxWidth = ((outputTable?.bounds.width)! - 100)
+        let column1 = outputTable.tableColumns[0]
+        column1.width = 60
+        column1.minWidth = 60
+        column1.maxWidth = 60
+        column1.title = "Image"
+
+        let column2 = outputTable.tableColumns[1]
+        column2.width = 80
+        column2.minWidth = 80
+        column2.maxWidth = 100
+        column2.title = "Name"
+        
+        let column3 = outputTable.tableColumns[2]
+        column3.width = 100
+        column3.minWidth = 100
+        column3.maxWidth = 150
+        column3.title = "Size"
+        
+        let column = outputTable.tableColumns[3]
+        column.width = ((outputTable?.bounds.width)!)
+        column.minWidth = ((outputTable?.bounds.width)! - 240)
+        column.maxWidth = ((outputTable?.bounds.width)!)
         column.title = " Doubted unused images paths, double click to make sure whether the files are unused"
-//        outputTable?.addTableColumn(column);
         outputTable?.reloadData()
         outputTable?.scroll(NSPoint(x: 0, y: 0))
         outputTable.doubleAction = #selector(outputTableDoubleClick(_:))
@@ -307,7 +333,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 20
+        return 25
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
@@ -321,28 +347,54 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         } else if (tableView == scanFilesTable){
             rowStr = scanFileDataSource[row]
         } else if (tableView == outputTable) {
-            if ((tableColumn?.identifier)!.rawValue == kOutputFileName)  {
+            if ((tableColumn?.identifier)!.rawValue == kOutputFilePathColumn)  {
                 let dict:NSDictionary = outputDataSource[row] as! NSDictionary
                 rowStr = dict["path"] as! String
-            } else {
+            } else if ((tableColumn?.identifier)!.rawValue == kOutputImgNameColumn){
                 let item:NSDictionary = outputDataSource[row] as! NSDictionary
                 let path:String = item.object(forKey: "path") as! String
                 let img = NSImage.init(byReferencingFile: path)
                 return img
-
+            } else if ((tableColumn?.identifier)!.rawValue == kOutputFileNameColumn){
+                let item:NSDictionary = outputDataSource[row] as! NSDictionary
+                let path:String = item.object(forKey: "path") as! String
+                let arr = path.components(separatedBy: "/") as NSArray
+                let name = arr.lastObject as! String
+                rowStr = name
+            } else {
+                let item:NSDictionary = outputDataSource[row] as! NSDictionary
+                let path:String = item.object(forKey: "path") as! String
+                if (FileManager.default.fileExists(atPath: path)) {
+                    let b:[FileAttributeKey : Any] = try! FileManager.default.attributesOfItem(atPath: path)
+                    let size = b[FileAttributeKey.size] as! UInt64
+                    rowStr = formatSize(size: size)
+                }
             }
         } else if (tableView == fileBlackTable) {
             rowStr = fileBlackListDataSource[row] as! String
         } else if (tableView == repeatImgTable) {
-            if ((tableColumn?.identifier)!.rawValue == kRepeatFileName)  {
+            if ((tableColumn?.identifier)!.rawValue == kRepeatFilePathColumn)  {
                 let dict = repeatImgDataSource[row] as! NSDictionary
                 rowStr = dict.object(forKey: "content") as! String
-            } else {
+            } else if ((tableColumn?.identifier)!.rawValue == kRepeatImgNameColumn){
                 let item:NSDictionary = repeatImgDataSource[row] as! NSDictionary
                 let path:String = item.object(forKey: "path") as! String
                 let img = NSImage.init(byReferencingFile: path)
                 return img
-                
+            } else if ((tableColumn?.identifier)!.rawValue == kRepeatFileNameColumn){
+                let item:NSDictionary = repeatImgDataSource[row] as! NSDictionary
+                let path:String = item.object(forKey: "path") as! String
+                let arr = path.components(separatedBy: "/") as NSArray
+                let name = arr.lastObject as! String
+                rowStr = name
+            } else {
+                let item:NSDictionary = repeatImgDataSource[row] as! NSDictionary
+                let path:String = item.object(forKey: "path") as! String
+                if (FileManager.default.fileExists(atPath: path)) {
+                    let b:[FileAttributeKey : Any] = try! FileManager.default.attributesOfItem(atPath: path)
+                    let size = b[FileAttributeKey.size] as! UInt64
+                    rowStr = formatSize(size: size)
+                }
             }
         }
         return rowStr
@@ -642,6 +694,16 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
             self.selectedFileBlackListDataIndex = -1
         }
         self.fileBlackTable.reloadData()
+    }
+    
+    //格式化 size
+    func formatSize(size:UInt64) -> String {
+        var result = ""
+        let a1 = "\(size)"
+        let dba = NSString.init(string: a1).doubleValue
+        let a = dba/1024.0
+        result = String(format: "%.2fM", a)
+        return result
     }
     
 }
