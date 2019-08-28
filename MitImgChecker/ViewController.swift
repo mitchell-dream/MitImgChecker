@@ -32,6 +32,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     let kScanFileName = "kScanFileName"
     let kOutputFileName = "kOutputFileName"
     let kOutputImgName = "kOutputImgName"
+    let kRepeatFileName = "kRepeatFileName"
     let kRepeatImgName = "kRepeatImgName"
     var imgPrefixDataSource = ["jpg","jpeg","png","pdf","gif","bmp","webp"]
     var scanFileDataSource = ["m","mm"]
@@ -87,12 +88,19 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         repeatImgTable?.delegate = self
         repeatImgTable?.dataSource = self
         repeatImgTable?.target = self
-        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kRepeatImgName))
-        column.width = repeatImgTable?.bounds.width ?? 0;
-        column.minWidth = repeatImgTable?.bounds.width ?? 0
-        column.maxWidth = repeatImgTable?.bounds.width ?? 0
+//        let column = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: kRepeatFileName))
+        let column1 = repeatImgTable.tableColumns[0]
+        column1.width = 100
+        column1.minWidth = 100
+        column1.maxWidth = 100
+        column1.title = "Image"
+        
+        let column = repeatImgTable.tableColumns[1]
+        column.width = (repeatImgTable?.bounds.width)!-100;
+        column.minWidth = (repeatImgTable?.bounds.width)!-100
+        column.maxWidth = (repeatImgTable?.bounds.width)!-100
         column.title = "Doubted repeat images paths, double click to see the details. The same sequence number represents the same picture"
-        repeatImgTable?.addTableColumn(column);
+//        repeatImgTable?.addTableColumn(column);
         repeatImgTable?.reloadData()
         repeatImgTable?.scroll(NSPoint(x: 0, y: 0))
         repeatImgTable.doubleAction = #selector(repeatImgTableDoubleClick(_:))
@@ -326,8 +334,16 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         } else if (tableView == fileBlackTable) {
             rowStr = fileBlackListDataSource[row] as! String
         } else if (tableView == repeatImgTable) {
-            let dict = repeatImgDataSource[row] as! NSDictionary
-            rowStr = dict.object(forKey: "content") as! String
+            if ((tableColumn?.identifier)!.rawValue == kRepeatFileName)  {
+                let dict = repeatImgDataSource[row] as! NSDictionary
+                rowStr = dict.object(forKey: "content") as! String
+            } else {
+                let item:NSDictionary = repeatImgDataSource[row] as! NSDictionary
+                let path:String = item.object(forKey: "path") as! String
+                let img = NSImage.init(byReferencingFile: path)
+                return img
+                
+            }
         }
         return rowStr
     }
