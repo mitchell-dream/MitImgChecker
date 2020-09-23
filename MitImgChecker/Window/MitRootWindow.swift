@@ -1,6 +1,6 @@
 //
 //  MitRootWindow.swift
-//  MitImgChecker
+//  MITSourceChecker
 //
 //  Created by MENGCHEN on 2019/8/21.
 //  Copyright © 2019 Mitchell. All rights reserved.
@@ -12,7 +12,7 @@ class MitRootWindow: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
-        self.window?.title = "MitImgChecker";
+        self.window?.title = "MITSourceChecker";
     }
     @IBAction func openDocument(_ sender: AnyObject?) {
         

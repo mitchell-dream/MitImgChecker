@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  MitImgChecker
+//  MITSourceChecker
 //
 //  Created by MENGCHEN on 2019/8/21.
 //  Copyright © 2019 Mitchell. All rights reserved.
@@ -25,6 +25,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     @IBOutlet weak var fileBlackTable: NSTableView!
     @IBOutlet weak var waitingLabel: NSTextField!
     @IBOutlet weak var repeatImgTable: NSTableView!
+    
+    @IBOutlet weak var loadingCell: NSTextFieldCell!
+    @IBOutlet weak var LoadingLab: NSTextField!
     let kImgBlackColumName = "kImgBlackColumName"
     let kFileBlackColumName = "kFileBlackColumName"
     let kCodePrefixName = "kCodePrefixName"
@@ -99,25 +102,25 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column1.width = 60
         column1.minWidth = 60
         column1.maxWidth = 60
-        column1.title = "Image"
+        column1.title = "资源"
         
         let column2 = repeatImgTable.tableColumns[1]
         column2.width = 100
         column2.minWidth = 100
         column2.maxWidth = 150
-        column2.title = "Name"
+        column2.title = "名称"
         
         let column3 = repeatImgTable.tableColumns[2]
         column3.width = 80
         column3.minWidth = 80
         column3.maxWidth = 100
-        column3.title = "Size"
+        column3.title = "大小"
         
         let column = repeatImgTable.tableColumns[3]
         column.width = (repeatImgTable?.bounds.width)!-240;
         column.minWidth = (repeatImgTable?.bounds.width)!-240
         column.maxWidth = (repeatImgTable?.bounds.width)!
-        column.title = "Doubted repeat images paths, double click to see the details. The same sequence number represents the same picture"
+        column.title = "被怀疑是重复的资源路径, 双击来查看资源详情"
         repeatImgTable?.reloadData()
         repeatImgTable?.scroll(NSPoint(x: 0, y: 0))
         repeatImgTable.doubleAction = #selector(repeatImgTableDoubleClick(_:))
@@ -132,7 +135,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = imageTypeTable?.bounds.width ?? 0;
         column.minWidth = imageTypeTable?.bounds.width ?? 0
         column.maxWidth = imageTypeTable?.bounds.width ?? 0
-        column.title = "Scan Type Name"
+        column.title = "扫描资源文件类型"
         imageTypeTable?.addTableColumn(column);
         imageTypeTable?.reloadData()
         imageTypeTable?.scroll(NSPoint(x: 0, y: 0))
@@ -146,7 +149,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = blackListTable?.bounds.width ?? 0
         column.minWidth = blackListTable?.bounds.width ?? 0
         column.maxWidth = blackListTable?.bounds.width ?? 0
-        column.title = "Image Subpath Black List"
+        column.title = "资源路径黑名单"
         blackListTable?.addTableColumn(column);
         blackListTable?.reloadData()
         blackListTable?.scroll(NSPoint(x: 0, y: 0))
@@ -160,7 +163,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column1.width = fileBlackTable?.bounds.width ?? 0
         column1.minWidth = fileBlackTable?.bounds.width ?? 0
         column1.maxWidth = fileBlackTable?.bounds.width ?? 0
-        column1.title = "File Subpath Black List"
+        column1.title = "工程文件检索黑名单"
         fileBlackTable?.addTableColumn(column1);
         fileBlackTable?.reloadData()
         fileBlackTable?.scroll(NSPoint(x: 0, y: 0))
@@ -174,7 +177,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = codePrefixTable?.bounds.width ?? 0
         column.minWidth = codePrefixTable?.bounds.width ?? 0
         column.maxWidth = codePrefixTable?.bounds.width ?? 0
-        column.title = "Code Prefix String"
+        column.title = "资源代码前缀"
         codePrefixTable?.addTableColumn(column);
         codePrefixTable?.reloadData()
         codePrefixTable?.scroll(NSPoint(x: 0, y: 0))
@@ -189,25 +192,25 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column1.width = 60
         column1.minWidth = 60
         column1.maxWidth = 60
-        column1.title = "Image"
+        column1.title = "资源"
 
         let column2 = outputTable.tableColumns[1]
         column2.width = 80
         column2.minWidth = 80
         column2.maxWidth = 100
-        column2.title = "Name"
+        column2.title = "名称"
         
         let column3 = outputTable.tableColumns[2]
         column3.width = 100
         column3.minWidth = 100
         column3.maxWidth = 150
-        column3.title = "Size"
+        column3.title = "大小"
         
         let column = outputTable.tableColumns[3]
         column.width = ((outputTable?.bounds.width)!)
         column.minWidth = ((outputTable?.bounds.width)! - 240)
         column.maxWidth = ((outputTable?.bounds.width)!)
-        column.title = " Doubted unused images paths, double click to make sure whether the files are unused"
+        column.title = "被怀疑是没被使用的资源，双击来查看文件资源是否被使用"
         outputTable?.reloadData()
         outputTable?.scroll(NSPoint(x: 0, y: 0))
         outputTable.doubleAction = #selector(outputTableDoubleClick(_:))
@@ -292,7 +295,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         column.width = scanFilesTable?.bounds.width ?? 0
         column.minWidth = scanFilesTable?.bounds.width ?? 0
         column.maxWidth = scanFilesTable?.bounds.width ?? 0
-        column.title = "Scan File Type"
+        column.title = "被扫描文件类型"
         scanFilesTable?.addTableColumn(column);
         scanFilesTable?.reloadData()
         scanFilesTable?.scroll(NSPoint(x: 0, y: 0))
@@ -443,7 +446,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 let window = item as! MitTextView
                 window.delegate = self
                 window.makeKeyAndOrderFront(self)
-                window.title = "Add Scan Type"
+                window.title = "添加扫描类型"
                 window.sureClickCallback { (str) in
                     if (str.count>0)&&(!self.imgPrefixDataSource.contains(str)){
                         self.imgPrefixDataSource.append(str)
@@ -525,7 +528,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 let window = item as! MitTextView
                 window.delegate = self
                 window.makeKeyAndOrderFront(self)
-                window.title = "Add Code Prefix String"
+                window.title = "添加工程中资源代码前缀"
                 window.sureClickCallback { (str) in
                     if (str.count>0)&&(!self.codePrefixDataSource.contains(str)){
                         self.codePrefixDataSource.add(str)
@@ -560,7 +563,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 let window = item as! MitTextView
                 window.delegate = self
                 window.makeKeyAndOrderFront(self)
-                window.title = "Add Black List String"
+                window.title = "添加资源路径黑名单"
                 window.sureClickCallback { (str) in
                     if (str.count>0)&&(!self.blackListDataSource.contains(str)){
                         self.blackListDataSource.add(str)
@@ -595,7 +598,7 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 let window = item as! MitTextView
                 window.delegate = self
                 window.makeKeyAndOrderFront(self)
-                window.title = "Add Scan File Type"
+                window.title = "添加被扫描文件类型"
                 window.sureClickCallback { (str) in
                     if (str.count>0)&&(!self.scanFileDataSource.contains(str)){
                         self.scanFileDataSource.append(str)
@@ -626,43 +629,104 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
     ///开始检查
     @IBAction func startCheck(_ sender: Any) {
         if filePath.count>0 {
+            
             outputDataSource.removeAllObjects()
             outputTable.reloadData()
+            repeatImgDataSource.removeAllObjects()
+            repeatImgTable.reloadData()
+            self.checker = MitChecker.init()
             waitingLabel.alphaValue = 1
+            waitingLabel.stringValue = "正在检测，请等待..."
             DispatchQueue.global().async {
-                self.checker.removeAll()
                 self.checker.getAllImages(atPath: self.filePath, imgType: self.imgPrefixDataSource,blackList: self.blackListDataSource as! [String], codePrefixList: self.codePrefixDataSource as![String])
-                self.checker.getFiles(atPath: self.filePath, fileType: self.scanFileDataSource, blackList: self.fileBlackListDataSource as![String])
-                self.outputDataSource = self.checker.startCheck()
+                self.checker.getSourceFiles(atPath: self.filePath, fileType: self.scanFileDataSource, blackList: self.fileBlackListDataSource as![String])
+                self.checker.currentProgressStr = { (currentProgress) in
+                    DispatchQueue.main.async {
+                        self.waitingLabel.stringValue = "\(currentProgress)%"
+                    }
+                }
                 self.repeatImgDataMap = self.checker.startCheckMD5Files()
                 var num = 1
+                let docDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+                let jsonPath = (docDir as NSString).appendingPathComponent("MitReDatas.xlsx")
+                print("重复数据路径 = \(jsonPath)");
+                let book = workbook_new(jsonPath)
+                let sheet = workbook_add_worksheet(book, "sheet1")
+                var row = 0;
+                let title = "重复资源检测报告"
+                worksheet_write_string(sheet, lxw_row_t(row), 0, title, nil);
+                row+=1
+                var totalSize = 0
+                var youhuaSize = 0
                 for key in self.repeatImgDataMap.allKeys {
-                    let arr = self.repeatImgDataMap.value(forKey: key as! String)
-                    for path in arr as! NSMutableArray {
+                    let arr = self.repeatImgDataMap.value(forKey: key as! String) as! NSMutableArray
+                    if (arr.count <= 0) {
+                        continue
+                    }
+                    var tmpSize = 0
+                    for path in arr {
                         let str = "index:\(num) path:\(path)"
                         let dict = NSMutableDictionary.init()
                         dict.setObject(str, forKey: "content"  as NSCopying)
                         dict.setObject(path, forKey: "path" as NSCopying)
                         self.repeatImgDataSource.add(dict)
+                        worksheet_write_string(sheet, lxw_row_t(row), 0, "序号\(num)", nil);
+                        worksheet_write_string(sheet, lxw_row_t(row), 1, path as? String, nil);
+                        row+=1;
+                        let filePath = path as! String
+                        if (FileManager.default.fileExists(atPath: filePath)) {
+                            let b:[FileAttributeKey : Any] = try! FileManager.default.attributesOfItem(atPath: filePath)
+                            let size = b[FileAttributeKey.size] as! Int
+                            totalSize+=size
+                            tmpSize = size
+                        }
                     }
+                    youhuaSize+=tmpSize
                     num+=1
                 }
+                workbook_close(book);
                 DispatchQueue.main.async {
-                    self.waitingLabel.alphaValue = 0
-                    self.outputTable.reloadData()
                     self.repeatImgTable.reloadData()
+                    let totalSizeStr = self.formatSize(size: UInt64(totalSize))
+                    let youhutSizeStr = self.formatSize(size: UInt64(youhuaSize))
+                    let keyouhuaStr = self.formatSize(size: UInt64(totalSize-youhuaSize))
+                    let alert = NSAlert.init()
+                    alert.messageText = title
+                    alert.informativeText = ("共有 \(row-num-1) 个疑似重复资源\n优化前大小:\(totalSizeStr)\n优化后大小:\(youhutSizeStr)\n预期优化空间:\(keyouhuaStr)\n报告路径:\n\(jsonPath)")
+                    alert.addButton(withTitle: "打开")
+                    alert.addButton(withTitle: "取消")
+                    alert.alertStyle = .warning
+                    alert.beginSheetModal(for: NSApplication.shared.windows[0]) { (modalResponse) in
+                        if (modalResponse == .alertFirstButtonReturn) {
+                            NSWorkspace.shared.openFile(jsonPath)
+                        }
+                    }
+                }
+                self.outputDataSource = self.checker.startCheck {_ in
+                    DispatchQueue.main.async {
+                        self.waitingLabel.alphaValue = 0
+                        self.outputTable.reloadData()
+                        self.repeatImgTable.reloadData()
+                    }
+                    // 获取分类数据头文件
+                    self.checker.getCategoryHFiles(atPath: self.filePath, fileType: ["h"], blackList: [".easybox","MinVideo-iOS/build"])
                 }
             }
         }
     }
-    ///清空
+    ///停止
     @IBAction func stopCheck(_ sender: Any) {
-        self.checker.removeAll()
-        self.outputDataSource.removeAllObjects()
-        self.outputTable.reloadData()
-        self.repeatImgDataMap.removeAllObjects()
-        self.repeatImgDataSource.removeAllObjects()
-        self.repeatImgTable.reloadData()
+        DispatchQueue.main.async {
+            self.waitingLabel.alphaValue = 0
+            self.waitingLabel.stringValue = "正在检测，请等待..."
+            self.checker.stop()
+            self.checker.removeAll()
+            self.outputDataSource.removeAllObjects()
+            self.outputTable.reloadData()
+            self.repeatImgDataMap.removeAllObjects()
+            self.repeatImgDataSource.removeAllObjects()
+            self.repeatImgTable.reloadData()
+        }
     }
     //添加文件名称黑名单
     @IBAction func addFileBlackList(_ sender: Any) {
@@ -674,9 +738,9 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
                 let window = item as! MitTextView
                 window.delegate = self
                 window.makeKeyAndOrderFront(self)
-                window.title = "Add File Black List SubString"
+                window.title = "添加工程文件检索黑名单"
                 window.sureClickCallback { (str) in
-                    if (str.count>0)&&(!self.blackListDataSource.contains(str)){
+                    if (str.count>0)&&(!self.fileBlackListDataSource.contains(str)){
                         self.fileBlackListDataSource.add(str)
                         self.fileBlackTable.reloadData()
                     }
@@ -701,8 +765,15 @@ class ViewController: NSViewController,NSTableViewDelegate,NSTableViewDataSource
         var result = ""
         let a1 = "\(size)"
         let dba = NSString.init(string: a1).doubleValue
-        let a = dba/1024.0
-        result = String(format: "%.2fM", a)
+        if (dba < 1024.0) {
+            result = String(format: "%.2f字节", dba)
+        } else if (dba >= 1024 && dba < 1024*1024.0){
+            let a = dba/1024.0
+            result = String(format: "%.2fKB", a)
+        } else {
+            let a = dba/1024.0/1024.0
+            result = String(format: "%.2fM", a)
+        }
         return result
     }
     

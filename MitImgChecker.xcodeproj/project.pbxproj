@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20F25865EA4D0F50A1C06419 /* libPods-MitImgChecker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFE533F3AB0489820E77509 /* libPods-MitImgChecker.a */; };
 		FC452105230D6D23002B24A8 /* MitSureWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC452104230D6D23002B24A8 /* MitSureWindow.swift */; };
 		FC452109230D6E1D002B24A8 /* MitSureWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC452108230D6E1D002B24A8 /* MitSureWindow.xib */; };
 		FC45210B230D86F5002B24A8 /* MitTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC45210A230D86F5002B24A8 /* MitTextView.swift */; };
@@ -21,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1AFE533F3AB0489820E77509 /* libPods-MitImgChecker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MitImgChecker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		250DF67323CC42CB0008E701 /* MitImgChecker-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MitImgChecker-Bridging-Header.h"; sourceTree = "<group>"; };
+		28636B7487A05F131BCCB52C /* Pods-MitImgChecker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MitImgChecker.release.xcconfig"; path = "Target Support Files/Pods-MitImgChecker/Pods-MitImgChecker.release.xcconfig"; sourceTree = "<group>"; };
+		B4A09FE27D965F105D104243 /* Pods-MitImgChecker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MitImgChecker.debug.xcconfig"; path = "Target Support Files/Pods-MitImgChecker/Pods-MitImgChecker.debug.xcconfig"; sourceTree = "<group>"; };
 		FC452104230D6D23002B24A8 /* MitSureWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitSureWindow.swift; sourceTree = "<group>"; };
 		FC452108230D6E1D002B24A8 /* MitSureWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MitSureWindow.xib; sourceTree = "<group>"; };
 		FC45210A230D86F5002B24A8 /* MitTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MitTextView.swift; sourceTree = "<group>"; };
@@ -42,12 +47,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20F25865EA4D0F50A1C06419 /* libPods-MitImgChecker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DF14707E58AAD64F9FB0027 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B4A09FE27D965F105D104243 /* Pods-MitImgChecker.debug.xcconfig */,
+				28636B7487A05F131BCCB52C /* Pods-MitImgChecker.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		61AC7B124C78015EC46C4FCC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1AFE533F3AB0489820E77509 /* libPods-MitImgChecker.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FC452116230FE02A002B24A8 /* File */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,11 +99,20 @@
 			path = Window;
 			sourceTree = "<group>";
 		};
+		FC81AA6824ED14320023DF78 /* Lexer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Lexer;
+			sourceTree = "<group>";
+		};
 		FCACED84230CEE40000297D7 = {
 			isa = PBXGroup;
 			children = (
 				FCACED8F230CEE40000297D7 /* MitImgChecker */,
 				FCACED8E230CEE40000297D7 /* Products */,
+				0DF14707E58AAD64F9FB0027 /* Pods */,
+				61AC7B124C78015EC46C4FCC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +127,7 @@
 		FCACED8F230CEE40000297D7 /* MitImgChecker */ = {
 			isa = PBXGroup;
 			children = (
+				FC81AA6824ED14320023DF78 /* Lexer */,
 				FC452118230FE061002B24A8 /* Window */,
 				FC452117230FE051002B24A8 /* Checker */,
 				FC452116230FE02A002B24A8 /* File */,
@@ -104,6 +137,7 @@
 				FCACED96230CEE41000297D7 /* Main.storyboard */,
 				FCACED99230CEE41000297D7 /* Info.plist */,
 				FCACED9A230CEE41000297D7 /* MitImgChecker.entitlements */,
+				250DF67323CC42CB0008E701 /* MitImgChecker-Bridging-Header.h */,
 			);
 			path = MitImgChecker;
 			sourceTree = "<group>";
@@ -115,6 +149,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FCACED9D230CEE41000297D7 /* Build configuration list for PBXNativeTarget "MitImgChecker" */;
 			buildPhases = (
+				77D4479EF90F75FB811474D1 /* [CP] Check Pods Manifest.lock */,
 				FCACED89230CEE40000297D7 /* Sources */,
 				FCACED8A230CEE40000297D7 /* Frameworks */,
 				FCACED8B230CEE40000297D7 /* Resources */,
@@ -140,6 +175,7 @@
 				TargetAttributes = {
 					FCACED8C230CEE40000297D7 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -174,6 +210,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		77D4479EF90F75FB811474D1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MitImgChecker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FCACED89230CEE40000297D7 /* Sources */ = {
@@ -321,12 +382,15 @@
 		};
 		FCACED9E230CEE41000297D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4A09FE27D965F105D104243 /* Pods-MitImgChecker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MitImgChecker/MitImgChecker.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = T43EX2XKU3;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MitImgChecker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -335,18 +399,23 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellmacos.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MitImgChecker/MitImgChecker-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
 		FCACED9F230CEE41000297D7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28636B7487A05F131BCCB52C /* Pods-MitImgChecker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MitImgChecker/MitImgChecker.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = T43EX2XKU3;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MitImgChecker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -355,6 +424,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mitchellmacos.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MitImgChecker/MitImgChecker-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;

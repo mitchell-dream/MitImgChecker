@@ -1,6 +1,6 @@
 //
 //  MitLineReader.swift
-//  MitImgChecker
+//  MITSourceChecker
 //
 //  Created by MENGCHEN on 2019/8/23.
 //  Copyright © 2019 Mitchell. All rights reserved.

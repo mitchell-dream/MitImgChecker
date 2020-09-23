@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:MitImgChecker.xcodeproj">
+      location = "self:/Users/mengchen04/Downloads/MitImgChecker-master/MitImgChecker.xcodeproj">
    </FileRef>
 </Workspace>
